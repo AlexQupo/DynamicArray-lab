@@ -2,19 +2,34 @@
 #include <iostream>
 using namespace std;
 
-template <typename T>
-class Iterator {
-	const T& get() const;
-
-	void set(const T& value);
-
-	void next();
-
-	bool hasNext() const;
-};
+//template <typename T>
+//class Iterator {
+//	const T& get() const;
+//
+//	void set(const T& value);
+//
+//	void next();
+//
+//	bool hasNext() const;
+//};
 
 template <typename T>
 class Array final {
+private:
+	T* buffer_;
+	int capacity_;
+	int size_;
+
+	class Iterator {
+		const T& get() const;
+
+		void set(const T& value);
+
+		void next();
+
+		bool hasNext() const;
+	};
+
 public:
 	Array();
 	Array(int capacity);
@@ -31,10 +46,32 @@ public:
 
 	int size() const;
 
+	//Constructor
+	//Copy
+	Array(const Array& other);
+
+	//Move
+	Array(Array&& other);
+
+	//Assignment
+	//Copy
+	Array& operator=(const Array& other);
+	//Move
+	Array& operator=(Array&& other);
+
+
+
+
+
+
+
+
+
+
 	Iterator iterator();
-	ConstIterator iterator() const;
+	//ConstIterator iterator() const;
 
 	Iterator reverseIterator();
-	ConstIterator reverseIterator() const;
+	//ConstIterator reverseIterator() const;
 };
 
