@@ -1,26 +1,7 @@
-﻿//#include <iostream>
-//
-
-//template<typename T>
-//class DArray final {
-//
-//};
-//
-//
-//
-//int main()
-//{
-//    std::cout << "Hello World!\n";
-//}
-
-
-
-
-
-#include <iostream>
+﻿#include <iostream>
 #include "DArray.h"
 #include <cstdlib>
-//using namespace std;
+
 
 //done
 template <typename T>
@@ -180,96 +161,20 @@ void DArray<T>::remove(int index) {
 	}
 	size_--;
 }
-//
-//template <typename T>
-//typename DArray<T>::Iterator DArray<T>::iterator() {
-//	
-//}
-//template <typename T>
-//const T& DArray<T>::Iterator::get() const {
-//	
-//}
-//
-//DArray<T>::
-//
-
-
-
 
 
 int main() {
-	DArray<int> arr0;
-	DArray<int> arr1(8);
-	DArray<int> arr2(arr1);
-	DArray<int> arr3 = arr2;
-	DArray<int> arr = DArray<int>(arr1);
-	arr2 = arr;
-	std::cout << arr[0] << " " << arr[1];
+	DArray<int> arr(2);
+	arr.insert(1);
+	arr.insert(2);
+	arr.insert(5);
+	arr.insert(8);
+	arr.remove(12);
+	std::cout << arr.size() << std::endl;
+	std::cout << std::endl;
+	for (auto it = arr.iterator(); it.hasNext(); it.next()) {
+		std::cout << it.get() << std::endl;
+		it.set(it.get() * 15);
+		std::cout << it.get() << std::endl;
+	}
 }
-
-
-
-
-
-
-//
-//
-//template<class T>
-//class Queue { 
-//	int size; 
-//	T* queue; 
-//	
-//	public:
-//	Queue() { 
-//		size = 0;
-//		queue = new T[100];
-//	}
-//	void add(T data) { 
-//		queue[size] = data; 
-//		size++;
-//	}
-//	void remove() { 
-//		if (size == 0) { 
-//			cout << "Queue is empty"<<endl; 
-//			return; 
-//		} 
-//		else { 
-//			for (int i = 0; i < size - 1; i++) { 
-//				queue[i] = queue[i + 1]; 
-//			} 
-//			size--; 
-//		} 
-//	} 
-//	void print() { 
-//		if (size == 0) { 
-//			cout << "Queue is empty"<<endl; 
-//			return; 
-//		} 
-//		for (int i = 0; i < size; i++) { 
-//			cout<<queue[i]<<" <- ";
-//		} 
-//		cout << endl;
-//	}
-//	Queue operator+(Queue &obj) {
-//        Queue res;
-//        for(int i=0;i<this->size;i++) {
-//            res.add(this->queue[i]);
-//        }
-//        for(int i=0;i<obj.size;i++) {
-//            res.add(obj.queue[i]);
-//        }
-//        return res; 
-//    }
-//}; 
-//
-//int main() { 
-//	Queue<int> q1; 
-//	q1.add(42); q1.add(2); q1.add(8);  q1.add(1);
-//	q1.print();
-//    
-//	Queue<string> q2;
-//	q2.add("Dave"); q2.add("John"); q2.add("Amy");
-//	q2.print();
-//
-//	return 0; 
-//} 

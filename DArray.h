@@ -1,17 +1,4 @@
-#pragma once
 #include <iostream>
-//using namespace std;
-
-//template <typename T>
-//class Iterator {
-//	const T& get() const;
-//
-//	void set(const T& value);
-//
-//	void next();
-//
-//	bool hasNext() const;
-//};
 
 template <typename T>
 class DArray final {
@@ -28,11 +15,22 @@ private:
 		T* last_;
 		bool reverse_;
 
-		int reverseMode() {
+		int setDirection() {
 			return reverse_ ? -1 : 1;
 		}
 
 	public:
+		Iterator(DArray<T>& array, bool reverse = false) : reverse_(reverse) {
+			if (reverse_) {
+				current_ = array.buffer_ + array.size_ - 1;
+				last_ = array.buffer_ - 1;
+			}
+			else {
+				current_ = array.buffer_;
+				last_ = array.buffer_ + array.size_;
+			}
+		}
+
 		const T& get() const {
 			return *current_;
 		}
@@ -45,15 +43,26 @@ private:
 		void next() {
 			if(!hasNext()) return;
 
-			current_ += reverseMode();
+			current_ += setDirection();
 		}
 
 		bool hasNext() const {
 			return current_ != last_;
 		}
+	};
+	class ConstIterator{
+	private:
+		T* current_;
+		T* last_;
+		bool reverse_;
 
-		Iterator(DArray<T>& array, bool reverse) : reverse_(reverse) {
-			if(reverse_) {
+		int setDirection() {
+			return reverse_ ? -1 : 1;
+		}
+
+	public:
+		ConstIterator(const DArray<T>& array, bool reverse = false) : reverse_(reverse) {
+			if (reverse_) {
 				current_ = array.buffer_ + array.size_ - 1;
 				last_ = array.buffer_ - 1;
 			}
@@ -63,10 +72,19 @@ private:
 			}
 		}
 
+		const T& get() const {
+			return *current_;
+		}
 
-	};
-	class ConstIterator{
-		
+		void next() {
+			if (!hasNext()) return;
+
+			current_ += setDirection();
+		}
+
+		bool hasNext() const {
+			return current_ != last_;
+		}
 	};
 
 public:
@@ -99,25 +117,17 @@ public:
 	DArray& operator=(DArray&& other);
 
 	Iterator iterator() {
-		return Iterator(*this, false);
+		return Iterator(*this);
 	}
-	//ConstIterator iterator() const {
-	//	ret
-	//}
+	ConstIterator iterator() const {
+		return ConstIterator(*this, true);
+	}
+	Iterator reverseIterator() {
+		return Iterator(*this, true);
+	}
+	ConstIterator reverseIterator() const {
+		return ConstIterator(*this);
+	}
 
-
-
-
-
-
-
-
-
-
-	//Iterator iterator();
-	////ConstIterator iterator() const;
-
-	//Iterator reverseIterator();
-	////ConstIterator reverseIterator() const;
 };
 
