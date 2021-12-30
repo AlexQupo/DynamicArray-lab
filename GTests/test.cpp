@@ -5,6 +5,7 @@ TEST(Operations, Initialization) {
 	DArray<int> array;
 	ASSERT_EQ(array.size(),0);
 }
+
 TEST(Operations, Copy) {
 	DArray<int> array(1);
 	array.insert(101);

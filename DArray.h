@@ -7,7 +7,7 @@ private:
 	int capacity_;
 	int size_;
 
-	//done
+	//Memory Expansion
 	void expansion(int newCapacity) {
 		T* tempBuffer = static_cast<T*>(malloc(newCapacity * sizeof(T)));
 		if (std::is_move_constructible<T>()) {
@@ -27,6 +27,7 @@ private:
 		capacity_ = newCapacity;
 	}
 
+	//Iterator
 	class Iterator {
 	private:
 		T* current_;
@@ -68,6 +69,8 @@ private:
 			return current_ != last_;
 		}
 	};
+
+	//Constant Iterator
 	class ConstIterator {
 	private:
 		T* current_;
@@ -106,12 +109,11 @@ private:
 	};
 
 public:
-	//done
 
+	//Constructor
 	DArray() : DArray(8) {
 	}
 
-	//done
 	DArray(int capacity) : capacity_(capacity), size_(0) {
 		//size_ = sizeof(T);
 		buffer_ = static_cast<T*>(malloc(sizeof(T) * capacity_));
@@ -120,7 +122,7 @@ public:
 		}
 	}
 
-	//done
+	//Destructor
 	~DArray() {
 		for (int i = 0; i < size_; ++i) {
 			buffer_[i].~T();
@@ -130,17 +132,15 @@ public:
 		capacity_ = 0;
 	}
 
-	//done
+	//Actual size
 	int size() const {
 		return size_;
 	}
 
-	//done
 	T& operator[](int index) {
 		return buffer_[index];
 	}
 
-	//done
 	const T& operator[](int index) const {
 		return buffer_[index];
 	}
@@ -188,14 +188,14 @@ public:
 		}
 		return *this;
 	}
-	//End section
+	//End section Move-Copy
 
-	//done
+	//insert
 	int insert(const T& value) {
 		return insert(size_, value);
 	}
 
-	//done
+	//insert with index
 	int insert(int index, const T& value) {
 
 		if (size_ == capacity_) {
@@ -220,23 +220,23 @@ public:
 		return index;
 	}
 
-	//done
+	//removal
 	void remove(int index) {
 		(buffer_ + index)->~T();
 		if (std::is_move_constructible<T>()) {
 			for (int i = index; i < size_ - 1; i++) {
 				new(buffer_ + i)T(std::move(*(buffer_ + i + 1)));
+				(buffer_ + i + 1)->~T();
 			}
 		}
 		else {
 			for (int i = index; i < size_ - 1; i++) {
 				new(buffer_ + i)T(*(buffer_ + i + 1));
+				(buffer_ + i + 1)->~T();
 			}
 		}
 		size_--;
 	}
-
-
 
 	Iterator iterator() {
 		return Iterator(*this);
